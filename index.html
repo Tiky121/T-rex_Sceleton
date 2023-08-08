@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      #switchButton {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1000; /* Make sure the button is on top */
+      }
+    </style>
+  </head>
+  <body>
+    <button id="switchButton" class="clickable">Prepni model</button>
+
+    <a-scene mindar-image="imageTargetSrc: marker/targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 1000; objects: .clickable"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model id="activeModel" rotation="90 0 0" position="0 0 0" scale="0.3 0.3 0.3" src="models/T-rex.glb"></a-gltf-model>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      document.querySelector('#switchButton').addEventListener("click", function() {
+        const model = document.querySelector('#activeModel');
+        const currentSrc = model.getAttribute('src');
+        if (currentSrc === 'models/T-rex.glb') {
+          model.setAttribute('src', 'models/Sceleton.glb');
+        } else {
+          model.setAttribute('src', 'models/T-rex.glb');
+        }
+      });
+    </script>
+  </body>
+</html>
